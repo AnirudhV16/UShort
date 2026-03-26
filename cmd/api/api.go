@@ -1,29 +1,37 @@
 package api
 
 import (
-	"UShort/services/url"
-	"UShort/types"
+	"database/sql"
 	"net/http"
 
+	"github.com/AnirudhV16/UShort/services/url"
+	"github.com/AnirudhV16/UShort/services/users"
 	"github.com/gorilla/mux"
 )
 
 type APIServer struct {
-	addr  string
-	store types.Mystore
+	addr string
+	//store types.Mystore
+	db *sql.DB
 }
 
 // constructor
-func NewAPIServer(addr string, store types.Mystore) *APIServer {
-	return &APIServer{addr: addr, store: store}
+func NewAPIServer(addr string, db *sql.DB) *APIServer {
+	return &APIServer{addr: addr, db: db}
 }
 
 func (s APIServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("api/v1").Subrouter()
 
-	urlHandler := url.NewHandler(s.store)
+	urlStore := url.NewStore(s.db)
+	userStore := users.NewStore(s.db)
+
+	urlHandler := url.NewHandler(urlStore)
 	urlHandler.RegisterRoutes(subrouter)
+
+	userHandler := users.NewHandler(userStore)
+	userHandler.RegisterRoutes(subrouter)
 
 	return http.ListenAndServe(s.addr, router)
 }
