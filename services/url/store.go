@@ -32,16 +32,13 @@ func (s *Store) GetUrlByShorturl(shorturl string) (string, error) {
 		shorturl,
 	)
 	u := new(types.URL)
-	err := row.Scan(&u.ID, &u.Short_url, &u.Original_url, &u.CreatedAt)
+	err := row.Scan(&u.Short_url, &u.Original_url, &u.CreatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return "", fmt.Errorf("user not found")
 		}
 		return "", err
 	}
-	/*if u.ID == 0 {
-		return "", fmt.Errorf("user not found")
-	}*/
 	return u.Original_url, nil
 }
 

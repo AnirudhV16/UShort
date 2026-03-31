@@ -18,7 +18,7 @@ type LoginUserPayload struct {
 }
 
 type User struct {
-	ID        int       `json:"ID"`
+	ID        int       `json:"id"`
 	FirstName string    `json:"firstname"`
 	LastName  string    `json:"lastname"`
 	Email     string    `json:"email"`
@@ -37,7 +37,6 @@ type URLPayload struct {
 }
 
 type URL struct {
-	ID           int       `json:"ID"`
 	Short_url    string    `json:"Short_url"`
 	Original_url string    `json:"Original_url"`
 	CreatedAt    time.Time `json:"CreatedAt"`
