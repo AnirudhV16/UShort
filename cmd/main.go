@@ -28,10 +28,12 @@ func main() {
 	initStorage(db)
 	println("after db")
 	server := api.NewAPIServer(":8080", db)
+	print("................")
 	if err := server.Run(); err != nil {
+		println("server errorrrrr not working run() didnt work....")
 		log.Fatal()
 	}
-
+	println("server started....")
 }
 
 func initStorage(db *sql.DB) {
